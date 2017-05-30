@@ -9,6 +9,8 @@ rho_y=zeros(N,M);
 x=linspace(-pi/2,pi/2,N);
 y=linspace(-pi/2,pi/2,M);
 
+cx = @(x1,y1,t1) -cos(x1)*sin(y1)*cos(t1); 
+cy = @(x1,y1,t1) sin(x1)*cos(y1)*cos(t1);
 for i=1:N
     for j=1:M
         if (x(i)-center(1))^2+(y(j)-center(2))^2 < r^2
@@ -19,7 +21,7 @@ end
 
 %initial conditions for numerical approximation
 
-t=0; tfinal=50;
+t=0; tfinal=pi;
 dx=x(2)-x(1); dy=y(2)-y(1); dt=0.2*dx;
 rho=rho_0;
 
@@ -30,8 +32,8 @@ while t<tfinal
     
     for i=2:N-1
         for j=2:M-1
-            c1=-cos(x(i))*sin(y(j))*cos(t);
-            c2=sin(x(i))*cos(y(j))*cos(t);
+            c1=cx(x(i),y(j),t);
+            c2=cy(x(i),y(j),t);
             if( i==1 || i==N || j==1 || j==M )
                 rho(i,j)=0;
             end
